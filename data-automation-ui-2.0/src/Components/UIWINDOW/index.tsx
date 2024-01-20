@@ -7,30 +7,16 @@ import { UIWINDOWProps } from '../../Global/gobalTypes';
 
 const UIRenderer = (props: UIWINDOWProps) => {
   console.log('Called UI Renderer');
-  const {
-    handleMode,
-    mode,
-    setContent,
-    currentScreenName,
-    menuItems,
-    onMenuItemClick
-  } = props;
+  const { handleMode, mode, menuItems } = props;
 
   const RENDER_HEADER_COMPONENT = () => (
     <Header handleMode={handleMode} mode={mode} />
   );
 
   const RENDER_COLLAPSED_MENUBAR_COMPONENT = () => (
-    <CollapsedMenuBar
-      setContent={setContent}
-      currentScreenName={currentScreenName}
-      menuItems={menuItems}
-      onMenuItemClick={onMenuItemClick}
-    />
+    <CollapsedMenuBar menuItems={menuItems} />
   );
-  const DISPLAY_CURRENT_SCREEN_CONTENT = () => (
-    <ContentRenderer currentScreen={currentScreenName} />
-  );
+  const DISPLAY_CURRENT_SCREEN_CONTENT = () => <ContentRenderer />;
 
   return (
     <>

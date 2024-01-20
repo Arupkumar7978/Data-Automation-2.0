@@ -1,20 +1,8 @@
-import { GetContainers } from '../../Global/GetContainers';
-import {
-  ContentRendererProps,
-  GenericComponentType
-} from '../../Global/gobalTypes';
-import { Suspense, useMemo } from 'react';
+import { Outlet } from 'react-router-dom';
+import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
-const ContentRenderer = (props: ContentRendererProps) => {
-  const { currentScreen } = props;
-  console.log('ContentRenderer', props);
-
-  const GenericComponent = useMemo(
-    () => GetContainers(currentScreen as keyof GenericComponentType),
-    [currentScreen]
-  );
-
+const ContentRenderer = () => {
   const fallbackRender = ({ error, resetErrorBoundary }) => {
     return (
       <div role="alert">
@@ -42,7 +30,7 @@ const ContentRenderer = (props: ContentRendererProps) => {
     >
       <ErrorBoundary FallbackComponent={fallbackRender}>
         <Suspense fallback={<center>Loading...</center>}>
-          <GenericComponent />
+          <Outlet />
         </Suspense>
       </ErrorBoundary>
     </div>

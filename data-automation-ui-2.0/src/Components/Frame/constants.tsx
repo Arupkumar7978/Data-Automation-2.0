@@ -7,7 +7,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 // Will Handle It Through DB Config
 export const MENU_LIST: MENUS_LIST_TYPE = [
-  { id: 1, name: 'InvoiceData', icon: <DataUsageIcon />, isVisible: true },
+  { id: 1, name: 'Invoice Data', icon: <DataUsageIcon />, isVisible: true },
   {
     id: 2,
     name: 'SpreadSheets',

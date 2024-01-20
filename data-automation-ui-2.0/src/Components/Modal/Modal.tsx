@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import ModalTypes from './modalTypes';
-import { Typography } from '../../index';
 import { IoClose } from 'react-icons/io5';
 import { GoAlertFill } from 'react-icons/go';
 import { VscError } from 'react-icons/vsc';
@@ -9,6 +8,7 @@ import { FcInfo } from 'react-icons/fc';
 import { IoCheckmarkDoneCircleSharp } from 'react-icons/io5';
 import './modal.css';
 import Button from '../../Inputs/Button/Button';
+import Typography from '../Typography/Typography';
 
 const Modal: React.FC<ModalTypes> = ({
   children = 'children',

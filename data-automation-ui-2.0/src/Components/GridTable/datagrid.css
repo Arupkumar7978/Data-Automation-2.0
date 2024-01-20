@@ -144,9 +144,4 @@ tr:last-child td:last-child {
   gap: 1rem;
 }
 
-.parentActions {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
 /* Style the responsive table */

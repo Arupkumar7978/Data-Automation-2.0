@@ -13,16 +13,7 @@ import Authentication from './Containers/Authentication/UserLogin';
 const App = () => {
   console.log('App Called');
   const [mode, toggleMode] = useState<boolean>(true);
-  const [currentScreen, setCurrentScreen] =
-    useState<string>('InvoiceData');
   const [menuItems] = useState<MENUS_LIST_TYPE>(MENU_LIST);
-
-  const handleMenuItemClick = (
-    _e: React.MouseEvent<HTMLButtonElement>,
-    menuName: string
-  ) => {
-    setCurrentScreen(menuName);
-  };
 
   const auth = true;
 
@@ -32,12 +23,9 @@ const App = () => {
         <CssBaseline />
         {auth ? (
           <UIRenderer
-            setContent={setCurrentScreen}
-            currentScreenName={currentScreen}
             handleMode={toggleMode}
             mode={mode}
             menuItems={menuItems}
-            onMenuItemClick={handleMenuItemClick}
           />
         ) : (
           <Authentication />

@@ -126,17 +126,6 @@ const DataGrid = (props: DataGridProps) => {
 
   return (
     <div className="gridMainContainer">
-      <div className="parentActions">
-        <Button
-          variant="contained"
-          size="small"
-          sx={{ backgroundColor: 'rgb(52, 71, 103)' }}
-          startIcon={<SiGooglesheets />}
-        >
-          Create workbook
-        </Button>
-      </div>
-
       <div
         className="tableStyleMain"
         onBlur={() =>

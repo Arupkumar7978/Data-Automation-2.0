@@ -149,9 +149,12 @@ const UserLogin = (props: UserLoginProps) => {
                 >
                   LOG IN
                 </Button>
-                <Typography variant="caption">
+                <span
+                  className={classes.commontextStyles}
+                  style={{ fontSize: 'small' }}
+                >
                   Forgot your password ? No worries just Click Here
-                </Typography>
+                </span>
               </div>
             </div>
           </div>

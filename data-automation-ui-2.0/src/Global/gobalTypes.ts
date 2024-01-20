@@ -7,10 +7,6 @@ import { LazyExoticComponent, MemoExoticComponent } from 'react';
 
 export type UIWINDOWProps = CollapsedMenuBarProps & HeaderProps;
 
-export type ContentRendererProps = {
-  currentScreen: string;
-};
-
 type LazyComponent = LazyExoticComponent<
   MemoExoticComponent<() => JSX.Element>
 >;

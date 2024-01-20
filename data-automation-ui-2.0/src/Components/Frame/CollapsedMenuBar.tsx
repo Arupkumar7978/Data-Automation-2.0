@@ -6,23 +6,14 @@ import Fade from '@mui/material/Fade';
 import { CollapsedMenuBarProps } from './types';
 import { memo } from 'react';
 import clsx from 'clsx';
+import { NavLink } from 'react-router-dom';
+import { BASE_URI } from '../../Configurations/Routers/constants';
 
 const SideNavbar = (props: CollapsedMenuBarProps) => {
   console.log('SideNavBar Rendered');
-  const { currentScreenName, menuItems, onMenuItemClick } = props;
+  const { menuItems } = props;
 
   const classes = sideNavBarStyles();
-
-  const handleDynamicScreencontent = (
-    event: React.MouseEvent<HTMLButtonElement>,
-    name: string
-  ) => {
-    if (![''].includes(name)) {
-      onMenuItemClick(event, name);
-    }
-  };
-
-  console.log('currentScreenName', currentScreenName);
 
   return (
     <div className={classes.root}>
@@ -37,26 +28,33 @@ const SideNavbar = (props: CollapsedMenuBarProps) => {
           ?.filter(({ id, isVisible }) => id < 4 && isVisible)
           .map((menu) => {
             return (
-              <Tooltip
-                title={menu.name}
-                placement="right-end"
-                TransitionComponent={Fade}
-                TransitionProps={{ timeout: 600 }}
-                key={menu.id}
-              >
-                <Button
+              <>
+                <Tooltip
+                  title={menu.name}
+                  placement="right-end"
+                  TransitionComponent={Fade}
+                  TransitionProps={{ timeout: 600 }}
                   key={menu.id}
-                  className={clsx(classes.dynamicIcons, {
-                    [classes.activeButton]:
-                      menu.name === currentScreenName
-                  })}
-                  onClick={(event) =>
-                    handleDynamicScreencontent(event, menu.name)
-                  }
                 >
-                  {menu.icon}
-                </Button>
-              </Tooltip>
+                  <NavLink
+                    to={`/${BASE_URI}/${menu.name
+                      .replace(' ', '-')
+                      .toLowerCase()}`}
+                    className={({ isActive, isPending }) =>
+                      isActive ? 'active' : isPending ? 'pending' : ''
+                    }
+                  >
+                    <Button
+                      key={menu.id}
+                      className={clsx(classes.dynamicIcons, {
+                        [classes.activeButton]: menu.name === ''
+                      })}
+                    >
+                      {menu.icon}
+                    </Button>
+                  </NavLink>
+                </Tooltip>
+              </>
             );
           })}
       </div>
@@ -77,12 +75,8 @@ const SideNavbar = (props: CollapsedMenuBarProps) => {
                   key={menu.id}
                   className={clsx(classes.dynamicIcons, {
                     [classes.activeButton]:
-                      menu.name?.toLowerCase() ===
-                      currentScreenName?.toLowerCase()
+                      menu.name?.toLowerCase() === ''
                   })}
-                  onClick={(event) =>
-                    handleDynamicScreencontent(event, menu.name)
-                  }
                 >
                   {menu.icon}
                 </Button>

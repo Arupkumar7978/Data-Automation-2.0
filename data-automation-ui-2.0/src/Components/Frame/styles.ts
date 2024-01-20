@@ -14,7 +14,8 @@ export const sideNavBarStyles = makeStyles((theme) => ({
     height: '100%',
     minWidth: '2.6rem',
     maxWidth: '2.6rem',
-    paddingTop: '1.0rem'
+    paddingTop: '1.0rem',
+    boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'
   },
   headIconStyles: {
     display: 'flex',
