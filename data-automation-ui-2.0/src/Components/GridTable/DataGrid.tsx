@@ -188,7 +188,9 @@ const DataGrid = (props: DataGridProps) => {
       case 'DATECHIP':
         return (
           <Chip
-            label={moment(label).format('Do MMM YYYY')}
+            label={moment((label as string)?.split(' ')[0]).format(
+              'Do MMM YYYY'
+            )}
             variant="filled"
             size="small"
           />

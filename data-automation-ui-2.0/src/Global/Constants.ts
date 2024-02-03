@@ -1,5 +1,3 @@
-import { WorkbookDTO } from '../Containers/SpreadSheets/types';
-
 export const FIREBASE_AUTH_SOURCES = [
   {
     provider: 'GOOGLE',
@@ -46,4 +44,8 @@ export const WorkbookTableHeaders = {
 
 export const PRIMARY_KEY_LIST = {
   PRIMRY_KEY_WORKBOOK_TABLE: 'workbookUUID'
+};
+
+export const PAGES = {
+  SPREADSHEETS: 'Spreadsheets'
 };

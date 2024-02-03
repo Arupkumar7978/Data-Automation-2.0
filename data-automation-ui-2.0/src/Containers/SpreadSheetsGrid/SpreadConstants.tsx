@@ -65,3 +65,7 @@ export const FOOTER_ACTION_BUTTONS = {
   SUBMIT: 'Submit',
   CREATE: 'Create'
 };
+
+export const PRIMARY_ACTION_BUTTONS = {
+  CREATE_WORKBOOK: 'Create Workbook',
+};

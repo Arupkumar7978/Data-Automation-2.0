@@ -11,11 +11,14 @@ export const fetchAllWorkbooksSuccess = (payload: any) => ({
   payload
 });
 
-export const createNewWorkbook = (payload: WorkbookDTO) => ({
+export const createNewWorkbook = (
+  payload: Omit<WorkbookDTO, 'createdOn' | 'updatedOn'>
+) => ({
   type: Constants.CREATE_WORKBOOK,
   payload
 });
 
-export const createNewWorkbookSuccess = () => ({
-  type: Constants.CREATE_WORKBOOK_SUCCESS
+export const createNewWorkbookSuccess = (payload: any) => ({
+  type: Constants.CREATE_WORKBOOK_SUCCESS,
+  payload
 });

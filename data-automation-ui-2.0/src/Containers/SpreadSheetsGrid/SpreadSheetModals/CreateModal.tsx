@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   CREATE_WORKBOOK_INITIAL_STATE,
   FOOTER_ACTION_BUTTONS,
@@ -9,6 +9,9 @@ import { CreateWorkbookStateType } from '../types';
 import { spreadSheetStyles } from '../style';
 import Button from '../../../Components/Button/Button';
 import { GetModalConfigs } from '../../../Components/UIWINDOW/ModalConfigParser';
+import { useDispatch, useSelector } from 'react-redux';
+import { createNewWorkbook } from '../Actions';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export const CreateModalFields = ({
   setOpen
@@ -16,6 +19,8 @@ export const CreateModalFields = ({
   setOpen: (prev: any) => void;
 }) => {
   const classes = spreadSheetStyles();
+  const { loading } = useSelector((state: any) => state.workbook);
+  const dispatch = useDispatch();
 
   const [createAndUpdatedWorkbook, setWorkbookAndDescription] =
     useState<CreateWorkbookStateType>(CREATE_WORKBOOK_INITIAL_STATE);
@@ -27,11 +32,22 @@ export const CreateModalFields = ({
     }));
   };
 
+  const handleCreateWorkbook = () => {
+    const createWorkbookPayload = {
+      name: createAndUpdatedWorkbook.workbookName,
+      description: createAndUpdatedWorkbook.description,
+      createdBy: 'arup.padhi',
+      updatedBy: 'arup.padhi'
+    };
+    dispatch(createNewWorkbook(createWorkbookPayload));
+    closeDialog();
+  };
+
   const isCreatedButtonDisabled = useMemo(
     () =>
       !(createAndUpdatedWorkbook?.workbookName as string).trim()
-        .length,
-    [createAndUpdatedWorkbook.workbookName]
+        .length || loading,
+    [createAndUpdatedWorkbook.workbookName, loading]
   );
 
   const closeDialog = useCallback(
@@ -42,6 +58,14 @@ export const CreateModalFields = ({
       })),
     [setOpen]
   );
+
+  // useEffect(() => {
+  //   if (success) {
+  //     closeDialog();
+  //     handleGridRefresh?.();
+  //     console.log('CREATION SUCCESS ... !!');
+  //   }
+  // }, [success]);
 
   return (
     <>
@@ -55,8 +79,16 @@ export const CreateModalFields = ({
           variant="primary"
           size="small"
           disabled={isCreatedButtonDisabled}
+          onClick={handleCreateWorkbook}
         >
-          {FOOTER_ACTION_BUTTONS.CREATE}
+          {!loading ? (
+            FOOTER_ACTION_BUTTONS.CREATE
+          ) : (
+            <>
+              <CircularProgress color="inherit" size="1.25rem" />
+              {'Creating...'}
+            </>
+          )}
         </Button>
         <Button
           variant="secondary"

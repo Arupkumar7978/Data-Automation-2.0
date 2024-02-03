@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 
 type ReactOrJSXElement =
@@ -20,7 +21,6 @@ export default interface ModalTypes {
   onClose?: () => void;
   open: boolean;
   modalType: 'warning' | 'confirm' | 'error' | 'info' | 'custom';
-  customModalTypeIcon?: any;
-  handleOnModalFieldsChange?: any;
-  fieldsValueState?: any;
+  customModalTypeIcon?: React.ReactElement | JSX.Element | null;
+  setOpen?: (e?: any) => void;
 }

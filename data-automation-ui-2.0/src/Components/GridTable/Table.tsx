@@ -15,7 +15,11 @@ type TableHeadProps = {
 };
 
 const TableHead: React.FC<TableHeadProps> = ({ children }) => {
-  return <thead>{children}</thead>;
+  return (
+    <thead style={{ position: 'relative', zIndex: 100 }}>
+      {children}
+    </thead>
+  );
 };
 
 type TableRowProps = {

@@ -1,7 +1,7 @@
 import createSagaMiddleware from '@redux-saga/core';
 import { legacy_createStore, applyMiddleware } from 'redux';
 import Reducers from './Reducers';
-import { getAllWorkbooksWatcher } from '../../Containers/SpreadSheets/Saga';
+import { commonSagaWatcher } from '../../Containers/SpreadSheets/Saga';
 
 const sagaMiddleWare = createSagaMiddleware();
 const middleWares = [sagaMiddleWare];
@@ -11,5 +11,5 @@ const store = legacy_createStore(
   applyMiddleware(...middleWares)
 );
 
-sagaMiddleWare.run(getAllWorkbooksWatcher);
+sagaMiddleWare.run(commonSagaWatcher);
 export default store;

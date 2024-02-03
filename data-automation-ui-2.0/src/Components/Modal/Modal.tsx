@@ -16,7 +16,8 @@ const Modal: React.FC<ModalTypes> = ({
   onClose,
   footerContent,
   open,
-  customModalTypeIcon
+  customModalTypeIcon,
+  setOpen
 }: ModalTypes) => {
   console.log('Rendered Modal');
 
@@ -56,7 +57,7 @@ const Modal: React.FC<ModalTypes> = ({
 
         {!hideCloseIcon && (
           <IoClose
-            // onClick={() => setOpenModal(false)}
+            onClick={() => setOpen?.()}
             className={`${FUSION}-close-icon`}
           />
         )}
