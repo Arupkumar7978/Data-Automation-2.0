@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 
 type TableProps = {
@@ -19,14 +20,20 @@ const TableHead: React.FC<TableHeadProps> = ({ children }) => {
 
 type TableRowProps = {
   className?: string;
-  children: unknown;
+  children?: React.ReactNode;
+  onClick?: () => void;
 };
 
 const TableRow: React.FC<TableRowProps> = ({
+  className,
   children,
-  className
+  ...rest
 }) => {
-  return <tr className={className}>{children as React.ReactNode}</tr>;
+  return (
+    <tr className={className} {...rest}>
+      {children as React.ReactNode}
+    </tr>
+  );
 };
 
 type TableHeaderCellProps = {

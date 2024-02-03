@@ -5,28 +5,23 @@ import { IoClose } from 'react-icons/io5';
 import { GoAlertFill } from 'react-icons/go';
 import { VscError } from 'react-icons/vsc';
 import { FcInfo } from 'react-icons/fc';
-import { IoCheckmarkDoneCircleSharp } from 'react-icons/io5';
+import { BiSolidSpreadsheet } from 'react-icons/bi';
 import './modal.css';
-import Button from '../../Inputs/Button/Button';
 import Typography from '../Typography/Typography';
 
 const Modal: React.FC<ModalTypes> = ({
   children = 'children',
-  headerConfig,
+  headerConfig = { title: '', description: '', hideCloseIcon: false },
   modalType = 'warning',
   onClose,
   footerContent,
-  open
+  open,
+  customModalTypeIcon
 }: ModalTypes) => {
+  console.log('Rendered Modal');
+
   const { title, description, hideCloseIcon } = headerConfig;
   const FUSION = `fusion-modal`;
-
-  const [openModal, setOpenModal] = React.useState<boolean>(open);
-
-  React.useEffect(() => {
-    setOpenModal(open);
-  }, [open]);
-
   const GET_ICON = () => {
     const iconClass = `${FUSION}-${modalType}-icon`;
     switch (modalType) {
@@ -35,11 +30,14 @@ const Modal: React.FC<ModalTypes> = ({
       case 'info':
         return <FcInfo className={iconClass} />;
       case 'confirm':
-        return <IoCheckmarkDoneCircleSharp className={iconClass} />;
+        return <BiSolidSpreadsheet className={iconClass} />;
       case 'error':
         return <VscError className={iconClass} />;
       case 'custom':
-        return;
+        return (
+          customModalTypeIcon &&
+          React.cloneElement(customModalTypeIcon)
+        );
 
       default:
         return null;
@@ -58,7 +56,7 @@ const Modal: React.FC<ModalTypes> = ({
 
         {!hideCloseIcon && (
           <IoClose
-            onClick={() => setOpenModal(false)}
+            // onClick={() => setOpenModal(false)}
             className={`${FUSION}-close-icon`}
           />
         )}
@@ -78,11 +76,10 @@ const Modal: React.FC<ModalTypes> = ({
       <div className={`${FUSION}-footer`}>{footerContent}</div>
     );
 
-  const handleMouseEvents = () => setOpenModal(true);
-
+  const handleMouseEvents = () => {};
   return (
     <>
-      {openModal && (
+      {open && (
         <div
           className={`${FUSION}-root`}
           onMouseDown={handleMouseEvents}
@@ -104,4 +101,4 @@ const Modal: React.FC<ModalTypes> = ({
   );
 };
 
-export default Modal;
+export default React.memo(Modal);

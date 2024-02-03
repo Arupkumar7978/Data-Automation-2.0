@@ -14,6 +14,7 @@ const Button = ({
   },
   error = false,
   className,
+  disabled = false,
   ...props
 }: ButtonProps) => {
   const ICON =
@@ -28,14 +29,19 @@ const Button = ({
         `fusion-button--${size}`,
         `fusion-button--${variant}`,
         `fusion-button-icon-alignment-${setIcon.alignment}`,
-        { [`fusion-error-state`]: error }
+        {
+          [`fusion-error-state`]: error,
+          [`fusion-disabled-state`]: disabled
+        }
       )}
       style={{ backgroundColor }}
       {...props}
     >
       {setIcon?.icon && (
         <span
-          className={`fusion-button--icon--${setIcon?.alignment}`}
+          className={`fusion-button--icon--${
+            setIcon?.alignment || 'left'
+          }`}
         >
           {ICON}
         </span>

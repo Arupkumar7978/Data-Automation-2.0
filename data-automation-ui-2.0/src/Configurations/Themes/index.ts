@@ -1,6 +1,7 @@
 import { createTheme } from '@mui/material/styles';
+import { Theme } from 'Global/gobalTypes';
 
-const LIGHT_THEME = createTheme({
+const LIGHT_THEME: Theme = createTheme({
   palette: {
     background: {
       default: '#f8f9fa',
@@ -19,6 +20,9 @@ const LIGHT_THEME = createTheme({
     text: {
       main: 'rgb(52, 71, 103)'
     }
+  },
+  utils: {
+    pxToRem: (value: number) => `${value / 16}rem`
   }
 });
 
@@ -41,6 +45,9 @@ const DARK_THEME = createTheme({
     text: {
       main: '#ffff'
     }
+  },
+  utils: {
+    pxToRem: (value: number) => `${value / 16}rem`
   }
 });
 

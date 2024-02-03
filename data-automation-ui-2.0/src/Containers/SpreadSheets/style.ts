@@ -1,27 +1,38 @@
 import { makeStyles } from '@mui/styles';
+import { Theme } from 'Global/gobalTypes';
 
-export const spreadSheetStyles = makeStyles((theme) => ({
-  spreadSheetsContainer: {
-    display: 'flex',
+const commonDisplayStyle = {
+  display: 'flex',
+  width: '100%'
+};
+
+export const spreadSheetStyles = makeStyles((theme: Theme) => ({
+  root: {
+    ...commonDisplayStyle,
     flexDirection: 'column',
-    gap: '1.75rem',
-    width: '100%'
+    gap: theme.utils.pxToRem(8)
   },
-  primaryActions: {
-    width: '100%',
+  tableToolbarActions: {
     display: 'flex',
-    justifyContent: 'flex-end'
+    paddingInline: theme.utils.pxToRem(12),
+    gap: theme.utils.pxToRem(12)
+  },
+  gridContainer: {
+    ...commonDisplayStyle
+  },
+  sectionHeader: {
+    ...commonDisplayStyle,
+    gap: theme.utils.pxToRem(4),
+    height: theme.utils.pxToRem(32),
+    justifyContent: 'space-between'
   },
   commonButtonStyle: {
-    backgroundColor: `${theme.palette.background.darkBlue} !important`,
-    '&:hover': {
-      backgroundColor: `${theme.palette.background.darkBlue} !important`
-    }
+    color: theme.palette.background.darkBlue
   },
-  commonTextfieldStyles: {
-    borderColor: `${theme.palette.background.darkBlue} !important`,
-    '& :focus': {
-      borderColor: `${theme.palette.background.darkBlue} !important`
-    }
+  modalFooter: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    gap: theme.utils.pxToRem(8),
+    paddingTop: theme.utils.pxToRem(12)
   }
 }));

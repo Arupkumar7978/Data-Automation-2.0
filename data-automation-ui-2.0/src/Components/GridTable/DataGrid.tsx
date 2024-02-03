@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import {
   Table,
   TableHead,
@@ -14,8 +14,9 @@ import { FaSortDown, FaSortUp } from 'react-icons/fa';
 import { IoCheckbox } from 'react-icons/io5';
 import { MdCheckBoxOutlineBlank } from 'react-icons/md';
 import { MdIndeterminateCheckBox } from 'react-icons/md';
-import { Button } from '@mui/material';
-import { SiGooglesheets } from 'react-icons/si';
+import Avatar from '@mui/material/Avatar';
+import Chip from '@mui/material/Chip';
+import moment from 'moment';
 
 interface DataGridProps {
   rows: any[];
@@ -23,10 +24,13 @@ interface DataGridProps {
   selectedRows: number[];
   sortDirection?: 'asc' | 'desc' | undefined;
   sortedColumn?: string | undefined;
+  handleOnRowClick?: (rowId: number) => void;
+  primaryKey: number | string;
 }
 
 const DataGrid = (props: DataGridProps) => {
-  const initialState: DataGridProps = {
+  const { primaryKey } = props;
+  const initialState: Omit<DataGridProps, 'primaryKey'> = {
     rows: [],
     headers: [],
     selectedRows: [],
@@ -34,12 +38,13 @@ const DataGrid = (props: DataGridProps) => {
     sortedColumn: undefined
   };
 
-  const [state, setState] = useState<DataGridProps>(initialState);
+  const [state, setState] =
+    useState<Omit<DataGridProps, 'primaryKey'>>(initialState);
 
   const toggleSelectAll = () => {
     const selected =
       state?.selectedRows?.length === 0
-        ? state?.rows.map((row) => row?.id)
+        ? state?.rows.map((row) => row?.id || row?.[primaryKey])
         : [];
     setState((prevState) => ({
       ...prevState,
@@ -47,7 +52,11 @@ const DataGrid = (props: DataGridProps) => {
     }));
   };
 
-  const checkBoxSelection = (id: number) => {
+  const checkBoxSelection = (
+    e: ChangeEvent<HTMLInputElement>,
+    id: number
+  ) => {
+    e.stopPropagation();
     const selectedIndex = state?.selectedRows?.indexOf(id);
     const newSelected: number[] = [...(state?.selectedRows || [])];
 
@@ -63,7 +72,6 @@ const DataGrid = (props: DataGridProps) => {
       ...prevState,
       selectedRows: newSelected
     }));
-    console.log('selection:', newSelected);
   };
 
   const sortByColumn = (column: any) => {
@@ -123,6 +131,88 @@ const DataGrid = (props: DataGridProps) => {
         <MdCheckBoxOutlineBlank onClick={() => toggleSelectAll()} />
       );
   };
+  function stringToColor(string: string) {
+    let hash = 0;
+    let i;
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    let color = '#';
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    return color;
+  }
+
+  const GetComponent = (type: string, label: string) => {
+    let AvatarLabel;
+    let ChipLabel;
+    let AvatarColor;
+    if (type === 'CHIP') {
+      AvatarLabel =
+        label.charAt(0).toUpperCase() +
+        label.split('.')[1].charAt(0).toUpperCase();
+      ChipLabel = (() => {
+        const splitedLabel = label.split('.');
+        const firstName =
+          splitedLabel[0].charAt(0).toUpperCase() +
+          splitedLabel[0].slice(1, splitedLabel[0].length);
+        const lastName =
+          splitedLabel[1].charAt(0).toUpperCase() +
+          splitedLabel[1].slice(1, splitedLabel[1].length);
+        const fullName = `${firstName} ${lastName}`;
+        return fullName;
+      })();
+      AvatarColor = stringToColor(ChipLabel);
+    }
+
+    switch (type) {
+      case 'CHIP':
+        return (
+          <Chip
+            avatar={
+              <Avatar
+                sx={{ bgcolor: AvatarColor }}
+                className="avatar"
+              >
+                {AvatarLabel}
+              </Avatar>
+            }
+            label={ChipLabel}
+            variant="outlined"
+            // color="success"
+            size="small"
+          />
+        );
+      case 'DATECHIP':
+        return (
+          <Chip
+            label={moment(label).format('Do MMM YYYY')}
+            variant="filled"
+            size="small"
+          />
+        );
+
+      default:
+        return label;
+        break;
+    }
+  };
+
+  const GetGridDataDisplayType = (row: any, key: any) => {
+    const displayConfig: any = {
+      createdBy: 'CHIP',
+      updatedBy: 'CHIP',
+      createdOn: 'DATECHIP',
+      updatedOn: 'DATECHIP'
+    };
+    if (Object.keys(displayConfig).includes(key)) {
+      const type = displayConfig[key];
+      return GetComponent(type, row[key]);
+    }
+    return row[key];
+  };
 
   return (
     <div className="gridMainContainer">
@@ -153,7 +243,9 @@ const DataGrid = (props: DataGridProps) => {
                     <div
                       style={{
                         display: 'flex',
-                        justifyContent: 'space-between'
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        height: '100%'
                       }}
                     >
                       <div className="fusion-th-text">
@@ -177,31 +269,62 @@ const DataGrid = (props: DataGridProps) => {
           <TableBody>
             {state.rows.map((row) => (
               <TableRow
-                key={row.id}
+                key={row.id || row?.[primaryKey]}
                 className={clsx({
-                  ['selected']: state?.selectedRows?.includes(row.id)
+                  ['selected']: state?.selectedRows?.includes(
+                    row?.id || row?.[primaryKey]
+                  )
                 })}
+                onClick={() =>
+                  props.handleOnRowClick?.(
+                    row?.id || row?.[primaryKey]
+                  )
+                }
               >
                 <TableRowCell>
                   <input
                     type="checkbox"
-                    checked={state?.selectedRows?.includes(row.id)}
-                    onChange={() => checkBoxSelection(row.id)}
+                    checked={state?.selectedRows?.includes(
+                      row?.id || row?.[primaryKey]
+                    )}
+                    onChange={(e) =>
+                      checkBoxSelection(
+                        e,
+                        row?.id || row?.[primaryKey]
+                      )
+                    }
                     className="check"
                   />
-                  {state?.selectedRows?.includes(row.id) ? (
+                  {state?.selectedRows?.includes(
+                    row.id || row?.[primaryKey]
+                  ) ? (
                     <IoCheckbox
-                      onClick={() => checkBoxSelection(row.id)}
+                      onClick={(e: any) =>
+                        checkBoxSelection(
+                          e,
+                          row?.id || row?.[primaryKey]
+                        )
+                      }
                     />
                   ) : (
                     <MdCheckBoxOutlineBlank
-                      onClick={() => checkBoxSelection(row.id)}
+                      onClick={(e: any) =>
+                        checkBoxSelection(
+                          e,
+                          row?.id || row?.[primaryKey]
+                        )
+                      }
                     />
                   )}
                 </TableRowCell>
-                {Object.keys(row).map((key) => (
-                  <TableRowCell key={key}>{row[key]}</TableRowCell>
-                ))}
+                {Object.keys(row).map(
+                  (key) =>
+                    Object.keys(state.headers[0]).includes(key) && (
+                      <TableRowCell key={key}>
+                        {GetGridDataDisplayType(row, key)}
+                      </TableRowCell>
+                    )
+                )}
               </TableRow>
             ))}
           </TableBody>

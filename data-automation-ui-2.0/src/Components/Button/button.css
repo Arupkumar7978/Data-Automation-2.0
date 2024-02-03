@@ -1,10 +1,10 @@
 :root {
   --background: #ffffff;
   --border: #c1c2c7;
-  --primary: #1a1a1c;
+  --primary: rgb(52, 71, 103);
   --primary-text: #fafafa;
   --secondary: #f5f6fb;
-  --secondary-text: #1a1a1c;
+  --secondary-text: rgb(52, 71, 103);
   --foreground: #0d0d0e;
   --primary-hover: #1c1c1cde;
   --secondary-hover: #c8c8c836;
@@ -32,6 +32,7 @@
   cursor: pointer;
   display: flex;
   outline: unset;
+  gap: 0.25rem;
   align-items: center;
   transition: 0.3s ease-in-out;
   line-height: var(--line-height-size);
@@ -78,8 +79,6 @@
 .fusion-button--icon--left {
   display: flex;
   font-size: large;
-  padding-right: 0.3rem;
-  margin-top: 0.1rem;
 }
 .fusion-button--icon--left {
   font-size: medium;
@@ -97,4 +96,10 @@
 .fusion-error-state {
   background-color: var(--error-state);
   color: var(--background);
+}
+
+.fusion-disabled-state {
+  color: grey;
+  pointer-events: none;
+  background: lightgrey;
 }

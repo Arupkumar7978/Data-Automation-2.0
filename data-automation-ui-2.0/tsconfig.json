@@ -13,6 +13,14 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "baseUrl": "./src",
+    "paths": {
+      "Components/*": ["Components/*"],
+      "Containers/*": ["containers/*"],
+      "Configurations/*": ["configurations/*"],
+      "Global/*": ["Global/*"],
+      "assests/*": ["assests/*"]
+    },
 
     /* Linting */
     "strict": true,

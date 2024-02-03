@@ -2,6 +2,8 @@
   font-size: medium;
   color: black;
   font-weight: 500;
+  display: flex;
+  align-items: center;
 }
 
 .typography--display {
@@ -34,7 +36,8 @@
 }
 
 .typography--large {
-  font-size: large;
+  font-size: 1.25rem;
+  height: 1.5rem;
 }
 
 .typography--extraLarge {

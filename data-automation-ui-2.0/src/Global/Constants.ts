@@ -1,3 +1,5 @@
+import { WorkbookDTO } from '../Containers/SpreadSheets/types';
+
 export const FIREBASE_AUTH_SOURCES = [
   {
     provider: 'GOOGLE',
@@ -30,3 +32,18 @@ export const FOOTER_CONTENTS_LIST = [
   'Terms',
   'Help'
 ];
+
+export const BASE_URL = 'http://localhost:9090/api';
+
+export const WorkbookTableHeaders = {
+  name: 'Name',
+  description: 'Description',
+  createdBy: 'CreatedBy',
+  createdOn: 'CreatedOn',
+  updatedBy: 'UpdatedBy',
+  updatedOn: 'UpdatedOn'
+};
+
+export const PRIMARY_KEY_LIST = {
+  PRIMRY_KEY_WORKBOOK_TABLE: 'workbookUUID'
+};
