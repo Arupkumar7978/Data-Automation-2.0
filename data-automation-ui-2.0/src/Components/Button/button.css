@@ -57,7 +57,7 @@
 }
 
 .fusion-button--tertiary {
-  background-color: var(--background);
+  background-color: unset;
 }
 .fusion-button--tertiary:hover {
   background-color: var(--secondary-hover);

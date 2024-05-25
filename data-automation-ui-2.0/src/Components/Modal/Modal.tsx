@@ -6,6 +6,7 @@ import { GoAlertFill } from 'react-icons/go';
 import { VscError } from 'react-icons/vsc';
 import { FcInfo } from 'react-icons/fc';
 import { BiSolidSpreadsheet } from 'react-icons/bi';
+import Fade from '@mui/material/Fade';
 import './modal.css';
 import Typography from '../Typography/Typography';
 
@@ -81,22 +82,24 @@ const Modal: React.FC<ModalTypes> = ({
   return (
     <>
       {open && (
-        <div
-          className={`${FUSION}-root`}
-          onMouseDown={handleMouseEvents}
-          onMouseUp={handleMouseEvents}
-          onTouchStart={handleMouseEvents}
-          onTouchEnd={handleMouseEvents}
-        >
-          <div className={`${FUSION}-backdrop`} onClick={onClose} />
-          <div className={`${FUSION}-container`}>
-            <div className={`${FUSION}`}>
-              <Header />
-              <Content />
-              <FooterContent />
+        <Fade in={open}>
+          <div
+            className={`${FUSION}-root`}
+            onMouseDown={handleMouseEvents}
+            onMouseUp={handleMouseEvents}
+            onTouchStart={handleMouseEvents}
+            onTouchEnd={handleMouseEvents}
+          >
+            <div className={`${FUSION}-backdrop`} onClick={onClose} />
+            <div className={`${FUSION}-container`}>
+              <div className={`${FUSION}`}>
+                <Header />
+                <Content />
+                <FooterContent />
+              </div>
             </div>
           </div>
-        </div>
+        </Fade>
       )}
     </>
   );

@@ -68,4 +68,5 @@ export const FOOTER_ACTION_BUTTONS = {
 
 export const PRIMARY_ACTION_BUTTONS = {
   CREATE_WORKBOOK: 'Create Workbook',
+  ADD_WORKSPACE:'Add Workspace',
 };

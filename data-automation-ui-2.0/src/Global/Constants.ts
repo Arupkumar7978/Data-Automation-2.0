@@ -43,7 +43,8 @@ export const WorkbookTableHeaders = {
 };
 
 export const PRIMARY_KEY_LIST = {
-  PRIMRY_KEY_WORKBOOK_TABLE: 'workbookUUID'
+  PRIMRY_KEY_WORKBOOK_TABLE: 'workbookUUID',
+  PRIMRY_KEY_WORKSPACE_TABLE: 'pk_workspace_id',
 };
 
 export const PAGES = {

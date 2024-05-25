@@ -1,7 +1,7 @@
 import createSagaMiddleware from '@redux-saga/core';
 import { legacy_createStore, applyMiddleware } from 'redux';
 import Reducers from './Reducers';
-import { commonSagaWatcher } from '../../Containers/SpreadSheets/Saga';
+import { commonSagaWatcher } from '../../Containers/SpreadSheetsGrid/Saga';
 
 const sagaMiddleWare = createSagaMiddleware();
 const middleWares = [sagaMiddleWare];

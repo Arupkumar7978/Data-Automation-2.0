@@ -5,11 +5,11 @@ export const ContentRendererStyles = makeStyles((theme: Theme) => ({
   root: {
     position: 'absolute',
     display: 'flex',
-    left: `${theme.utils.pxToRem(60)}`,
-    height: `calc(100% - ${theme.utils.pxToRem(60)})`,
-    top: `${theme.utils.pxToRem(48)}`,
-    width: `calc(100% - ${theme.utils.pxToRem(70)})`,
-    overflow: `hidden scroll`
+    left: `${theme.utils.pxToRem(44)}`,
+    height: `calc(100% - ${theme.utils.pxToRem(32)})`,
+    top: `${theme.utils.pxToRem(32)}`,
+    width: `calc(100% - ${theme.utils.pxToRem(56)})`,
+    overflow: `auto`
   }
 }));
 export const ModalRendererStyles = makeStyles((theme: Theme) => ({

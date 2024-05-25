@@ -24,7 +24,7 @@ interface DataGridProps {
   selectedRows: number[];
   sortDirection?: 'asc' | 'desc' | undefined;
   sortedColumn?: string | undefined;
-  handleOnRowClick?: (rowId: number) => void;
+  handleOnRowClick?: (id: any, obj: any) => void;
   primaryKey: number | string;
 }
 
@@ -279,7 +279,9 @@ const DataGrid = (props: DataGridProps) => {
                 })}
                 onClick={() =>
                   props.handleOnRowClick?.(
-                    row?.id || row?.[primaryKey]
+                    (row?.id as string) ||
+                      (row?.[primaryKey] as string),
+                    row
                   )
                 }
               >

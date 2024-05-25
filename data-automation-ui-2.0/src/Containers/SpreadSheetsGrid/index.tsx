@@ -1,18 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
-import SpreadDataGrid from './SpreadGrid';
+import WorkspacesDataGrid from './WorkspaceGrid';
+import WorkbookGrid from './WorkbooksGrid';
 import Modal from '../../Components/Modal/Modal';
 import { CreateModalFields } from './SpreadSheetModals/CreateModal';
-import {
-  MODAL_HEADER_CONFIG,
-  PRIMARY_ACTION_BUTTONS
-} from './SpreadConstants';
+import { MODAL_HEADER_CONFIG } from './SpreadConstants';
 import { useSelector, useDispatch } from 'react-redux';
-import { VscGitPullRequestCreate } from 'react-icons/vsc';
-import Typography from '../../Components/Typography/Typography';
 import { spreadSheetStyles } from './style';
-import Button from '../../Components/Button/Button';
-import { fetchAllWorkbooks } from './Actions';
+import {
+  fetchAllWorkspaces,
+  fetchWorkbookByWorkspaceId
+} from './Actions';
+import Loader from '../../Components/Loader';
 
 const SpreadSheets: React.FC = () => {
   console.log('SpreadSheets Rendered');
@@ -20,43 +19,77 @@ const SpreadSheets: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const [open, setOpen] = useState({ createDialog: false });
-  const workbookData = useSelector(
-    (state: any) => state.workbook.workbookDTO
+  const [open, setOpen] = useState({
+    createWorkbookDialog: false,
+    createWorkspaceDialog: false
+  });
+
+  const [isWorkspaceDetails, setIsWorkspaceDetails] = useState(false);
+
+  const [selectedWorkspaceData, setselectedWorkspaceData] = useState(
+    {}
+  );
+  const { workbookDTO, workspaceDTO, globalLoading } = useSelector(
+    (state: any) => state.commonWorkspaceAndWorkbook
   );
 
-  const handleGridRefresh = () => dispatch(fetchAllWorkbooks());
+  const { data: workbookData } = workbookDTO;
+  const { data: workspaceData } = workspaceDTO;
+
+  console.log('workspaceData', workspaceData);
+  console.log('workbookData', workbookData);
+  console.log('globalLoading', globalLoading);
+
+  const handleGridRefresh = () => dispatch(fetchAllWorkspaces());
+
+  const handleOnRowClick = (
+    workspaceId: number,
+    workspaceData: any
+  ) => {
+    setselectedWorkspaceData(workspaceData);
+    setIsWorkspaceDetails(true);
+    dispatch(fetchWorkbookByWorkspaceId(workspaceId));
+  };
 
   return (
     <>
-      <div className={classes.root}>
-        <div className={classes.sectionHeader}>
-          <Typography variant="heading" size="large">
-            Spreadsheets
-          </Typography>
-          <Button
-            variant="secondary"
-            setIcon={{ icon: <VscGitPullRequestCreate /> }}
-            className={classes.commonButtonStyle}
-            onClick={() =>
-              setOpen((prev: any) => ({
-                ...prev,
-                createDialog: true
-              }))
-            }
-          >
-            {PRIMARY_ACTION_BUTTONS.CREATE_WORKBOOK}
-          </Button>
+      {!isWorkspaceDetails && (
+        <WorkspacesDataGrid
+          workspacesData={workspaceData}
+          handleGridRefresh={handleGridRefresh}
+          setOpen={setOpen}
+          handleOnRowClick={handleOnRowClick}
+          isWorkspaceDetails={isWorkspaceDetails}
+        />
+      )}
+
+      {globalLoading && isWorkspaceDetails && (
+        <div className={classes.loaderDiv}>
+          <Loader />
         </div>
-        <SpreadDataGrid
+      )}
+
+      {isWorkspaceDetails && !globalLoading && (
+        <WorkbookGrid
           workbookData={workbookData}
           handleGridRefresh={handleGridRefresh}
+          setOpen={setOpen}
+          setIsWorkspaceDetails={setIsWorkspaceDetails}
+          isWorkspaceDetails={isWorkspaceDetails}
+          selectedWorkspaceData={selectedWorkspaceData}
         />
-      </div>
+      )}
+
       <Modal
-        children={<CreateModalFields setOpen={setOpen} />}
+        children={
+          <CreateModalFields
+            setOpen={setOpen}
+            type="createWorkbookDialog"
+            data={selectedWorkspaceData}
+          />
+        }
         headerConfig={MODAL_HEADER_CONFIG.CREATE}
-        open={open.createDialog}
+        open={open.createWorkbookDialog}
         modalType={'confirm'}
       />
     </>

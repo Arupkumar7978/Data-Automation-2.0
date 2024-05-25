@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import WorkbookReducer from '../../Containers/SpreadSheets/Reducer';
+import WorkbookReducer from '../../Containers/SpreadSheetsGrid/Reducer';
 
 export default combineReducers({
-  workbook: WorkbookReducer
+  commonWorkspaceAndWorkbook: WorkbookReducer
 });

@@ -14,12 +14,19 @@ import { createNewWorkbook } from '../Actions';
 import CircularProgress from '@mui/material/CircularProgress';
 
 export const CreateModalFields = ({
-  setOpen
+  setOpen,
+  type,
+  data
 }: {
   setOpen: (prev: any) => void;
+  type: string;
+  data: any;
 }) => {
+  const { workspaceId } = data;
   const classes = spreadSheetStyles();
-  const { loading } = useSelector((state: any) => state.workbook);
+  const { loading } = useSelector(
+    (state: any) => state.commonWorkspaceAndWorkbook.workbookDTO
+  );
   const dispatch = useDispatch();
 
   const [createAndUpdatedWorkbook, setWorkbookAndDescription] =
@@ -36,6 +43,7 @@ export const CreateModalFields = ({
     const createWorkbookPayload = {
       name: createAndUpdatedWorkbook.workbookName,
       description: createAndUpdatedWorkbook.description,
+      workspaceId: workspaceId || 1,
       createdBy: 'arup.padhi',
       updatedBy: 'arup.padhi'
     };
@@ -54,9 +62,9 @@ export const CreateModalFields = ({
     () =>
       setOpen((prev: any) => ({
         ...prev,
-        createDialog: false
+        [type]: false
       })),
-    [setOpen]
+    [setOpen, type]
   );
 
   // useEffect(() => {
